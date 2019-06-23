@@ -10,15 +10,41 @@ import UIKit
 
 class TodoListTableTableViewController: UITableViewController {
 
-    let itemArray = ["Find Mike", "Buy Eggs", "iOS Stuff"]
+    var itemArray = ["Find Mike", "Buy Eggs", "iOS Stuff"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+      
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewItem))
         
       
 
     }
 
+    @objc func addNewItem() {
+        
+        var textField = UITextField()
+        
+        let ac = UIAlertController(title: "Enter Item", message: nil, preferredStyle: .alert)
+        ac.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create new item"
+            textField = alertTextField
+        }
+        
+        let submitAction = UIAlertAction(title: "Submit", style: .default) { action in
+            
+            self.itemArray.append(textField.text!)
+            //print(self.itemArray)
+            self.tableView.reloadData()
+       }
+        
+        ac.addAction(submitAction)
+        present(ac, animated: true)
+    }
+    
+    func submit(answer: String) {
+        
+    }
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
    
