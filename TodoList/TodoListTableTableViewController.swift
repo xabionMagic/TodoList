@@ -12,12 +12,16 @@ class TodoListTableTableViewController: UITableViewController {
 
     var itemArray = ["Find Mike", "Buy Eggs", "iOS Stuff"]
     
+    let userdefaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
       
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewItem))
         
-      
+        if let items = userdefaults.array(forKey: "TodoListArray") as? [String]  {
+            itemArray = items
+        }
 
     }
 
@@ -32,8 +36,9 @@ class TodoListTableTableViewController: UITableViewController {
         }
         
         let submitAction = UIAlertAction(title: "Submit", style: .default) { action in
-            
             self.itemArray.append(textField.text!)
+            
+            self.userdefaults.set(self.itemArray, forKey: "TodoListArray")
             //print(self.itemArray)
             self.tableView.reloadData()
        }
